@@ -54,10 +54,9 @@ var moveWordPress = function(){
 
 var wipeInitializer = function(){
 	console.log( 'Cleaning up the installer.' );
-	deleteFolderRecursive( 'node_modules' );
-	fs.unlinkSync( '.gitignore' );
 	fs.unlinkSync( 'index.js' );
 	fs.unlinkSync( 'package.json' );
+	deleteFolderRecursive( 'node_modules' );
 	console.log( 'All set. Have fun!' );
 	return 1;
 };
