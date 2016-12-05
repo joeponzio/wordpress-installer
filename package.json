@@ -1,0 +1,17 @@
+{
+  "name": "wordpress-installer",
+  "version": "1.0.0",
+  "description": "NPM installer for WordPress",
+  "main": "index.js",
+  "scripts": {
+    "installer": "npm install adm-zip && npm install fs && npm install https && npm install ncp && npm install prompt && node index.js"
+  },
+  "author": "Joe Ponzio",
+  "contributors": [
+    {
+      "name": "Joe Ponzio",
+      "url": "https://github.com/joeponzio"
+    }
+  ],
+  "license": "MIT"
+}
