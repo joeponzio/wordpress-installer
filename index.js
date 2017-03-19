@@ -51,7 +51,9 @@ var createWPConfig = function(){
 	} else {
 		wpConfig +=	'define( \'WP_DEBUG\',              false );' + os.EOL;
 	}
-	wpConfig +=		'define( \'AUTOSAVE_INTERVAL\',     ' + config.autosave + ' );' + os.EOL;
+	if( 60 !== config.autosave ){
+		wpConfig +=		'define( \'AUTOSAVE_INTERVAL\',     ' + config.autosave + ' );' + os.EOL;
+	}
 	if( false === config.revisions ){
 		wpConfig +=	'define( \'WP_POST_REVISIONS\',     false );' + os.EOL;
 	} else if( true !== config.revisions ){
@@ -64,6 +66,7 @@ var createWPConfig = function(){
 					'require_once( ABSPATH . \'wp-settings.php\' );';
 
 	fs.writeFile( 'wp-config.php', wpConfig );
+	return true;
 };
 
 var deleteFolderRecursive = function( path ){
@@ -221,7 +224,7 @@ var promptSchema = {
 				return parseInt( value );
 			},
 			description: 'Autosave interval, in seconds',
-			default: 600,
+			default: 60,
 			pattern: /^[0-9]+$/,
 			message: 'Please enter a value in seconds',
 			required: true
