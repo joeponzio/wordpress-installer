@@ -1,0 +1,13 @@
+// Ignore all hidden files and folders
+// except the ones we specifically allow
+.*
+!.gitignore
+
+// Also ignore these files and folders
+// that we specify here
+_notes
+bower_components
+debug.log
+npm-debug.log
+node_modules
+wp-config.php

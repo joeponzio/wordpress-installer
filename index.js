@@ -77,14 +77,14 @@ var deleteFolderRecursive = function( path ){
 var downloadWordPress = function(){
 	console.log( 'Downloading WordPress' );
 	var wpurl;
-	if( !wpversion.length ){
+	if( !config.wpversion.length ){
 		wpurl = 'https://wordpress.org/latest.zip';
 		wpversion = '(the latest version)';
 	} else {
-		wpurl = 'https://wordpress.org/wordpress-' + wpv + '.zip';
+		wpurl = 'https://wordpress.org/wordpress-' + config.wpversion + '.zip';
 	}
 	https.get( wpurl, function( response ){
-		console.log( 'Downloading WordPress ' + wpversion + '. Please be patient as this may take a minute.' );
+		console.log( 'Downloading WordPress ' + config.wpversion + '. Please be patient as this may take a minute.' );
 		response.on( 'data', function( data ){
 			fs.appendFileSync( 'wordpress.zip', data );
 		});
