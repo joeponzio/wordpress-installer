@@ -8,7 +8,12 @@ var ncp    = require( 'ncp' ).ncp;
 var os     = require( 'os' );
 var prompt = require( 'prompt' );
 
-var config = {};
+var config = {
+	autosave: 60,
+	dbhost: 'localhost',
+	debug: 'Y',
+	revisions: 'All'
+};
 ncp.limit = 16;
 
 var createSalt = function(){
@@ -186,6 +191,7 @@ var promptSchema = {
 			before: function( value ){
 				return value.trim();
 			},
+			default: config.dbname || '',
 			description: 'Database Name:',
 			pattern: /^[a-zA-Z0-9\-_]+$/,
 			message: 'Database name must be only letters, numbers, dashes, and/or underscores',
@@ -195,6 +201,7 @@ var promptSchema = {
 			before: function( value ){
 				return value.trim();
 			},
+			default: config.dbuser || '',
 			description: 'Database User:',
 			pattern: /^[a-zA-Z0-9\-_]+$/,
 			message: 'Database user must be only letters, numbers, dashes, and/or underscores',
@@ -204,9 +211,20 @@ var promptSchema = {
 			before: function( value ){
 				return value.trim();
 			},
+			default: config.dbpass || '',
 			description: 'Database Password:',
 			pattern: /^[\S]+$/,
 			message: 'Database password can not have spaces, tabs, or new lines',
+			required: true
+		},
+		dbhost: {
+			before: function( value ){
+				return value.trim();
+			},
+			default: config.dbhost || 'localhost',
+			description: 'Database Host:',
+			pattern: /^[0-9a-zA-Z:\-\.]+$/,
+			message: 'Database host can not have spaces, tabs, or new lines',
 			required: true
 		},
 		debug: {
@@ -214,7 +232,7 @@ var promptSchema = {
 				return value.toLowerCase();
 			},
 			description: 'Turn on debug mode?',
-			default: 'Y',
+			default: config.debug || 'Y',
 			pattern: /^[YyNn]+$/,
 			message: 'Please enter Y or N',
 			required: true
@@ -224,7 +242,7 @@ var promptSchema = {
 				return parseInt( value );
 			},
 			description: 'Autosave interval, in seconds',
-			default: 60,
+			default: config.autosave || 60,
 			pattern: /^[0-9]+$/,
 			message: 'Please enter a value in seconds',
 			required: true
@@ -240,7 +258,7 @@ var promptSchema = {
 				return parseInt( value );
 			},
 			description: 'Number of revisions to store',
-			default: 'All',
+			default: config.revisions || 'All',
 			pattern: /^[0-9alAL]+$/,
 			message: 'Please enter a number, or type "all" to store all revisions',
 			required: true
@@ -261,6 +279,7 @@ prompt.get( promptSchema, function( err, result ){
 	config.dbname     = result.dbname;
 	config.dbuser     = result.dbuser;
 	config.dbpass     = result.dbpass;
+	config.dbhost     = result.dbhost;
 	config.debug      = result.debug;
 	config.autosave   = result.autosave;
 	config.revisions  = result.revisions;
