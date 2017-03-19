@@ -117,15 +117,6 @@ var downloadWordPress = function(){
 	});
 };
 
-var finishInstallation = function(){
-	console.log( 'Cleaning up the installer.' );
-	//fs.unlinkSync( 'index.js' );
-	//fs.unlinkSync( 'package.json' );
-	//deleteFolderRecursive( 'node_modules' );
-	console.log( 'All set. Have fun!' );
-	return 1;
-};
-
 var runAsyncInstallation = function(){
 	async.parallel([
 		function( callback ){
@@ -134,7 +125,7 @@ var runAsyncInstallation = function(){
 			callback( null, 'Created wp-config file' );
 		},
 		function( callback ){
-			//deleteFolderRecursive( '.git' );
+			deleteFolderRecursive( '.git' );
 			console.log( 'Deleted the WordPress installer .git reference' );
 			callback( null, 'Deleted the WordPress installer .git reference' );
 		},
@@ -148,16 +139,17 @@ var runAsyncInstallation = function(){
 			console.log( 'Removed the initial wordpress installation folder' );
 			callback( null, 'Removed the initial wordpress installation folder' );
 		},
-		/*
 		function( callback ){
-			fs.unlinkSync( 'installer.js' );
-			callback( null, 'fourteen' );
+			fs.unlinkSync( 'index.js' );
+			fs.unlinkSync( 'package.json' );
+			console.log( 'Removed the installer files' );
+			callback( null, 'Removed the installer files' );
 		},
-		*/
 	],
 	function( err, results ){
 		if( !err ){
-			finishInstallation();
+			console.log( 'All set. Have fun!' );
+			return 1;
 		} else {
 			console.log( err );
 			return 1;
