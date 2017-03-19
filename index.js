@@ -22,7 +22,7 @@ var createSalt = function(){
 };
 
 var createWPConfig = function(){
-	return '<?php' + os.EOL +
+	var wpConfig = '<?php' + os.EOL +
 		'define( \'DB_NAME\',     \'' + config.dbname + '\' );' + os.EOL +
 		'define( \'DB_USER\',     \'' + config.dbuser + '\' );' + os.EOL +
 		'define( \'DB_PASSWORD\', \'' + config.dbpass + '\' );' + os.EOL +
@@ -57,6 +57,7 @@ var createWPConfig = function(){
 		'  define( \'ABSPATH\', dirname( __FILE__ ) . \'/\' );' + os.EOL +
 		'}' + os.EOL +
 		'require_once( ABSPATH . \'wp-settings.php\' );';
+	fs.writeFile( 'wp-config.php', wpConfig );
 };
 
 var deleteFolderRecursive = function( path ){
@@ -113,7 +114,7 @@ var finishInstallation = function(){
 var runAsyncInstallation = function(){
 	async.parallel([
 		function( callback ){
-			fs.writeFile( 'wp-config.php', createWPConfig );
+			createWPConfig();
 			console.log( 'Created the wp-config.php file' );
 			callback( null, 'Created wp-config file' );
 		},
