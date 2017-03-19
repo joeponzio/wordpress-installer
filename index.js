@@ -267,11 +267,11 @@ var promptSchema = {
 };
 
 console.log( os.EOL );
-console.log( '--------------------------------------' );
-console.log( os.EOL );
-console.log( '     The Node WordPress Installer     ' );
-console.log( os.EOL );
-console.log( '--------------------------------------' );
+console.log( '-------------------------------------------' );
+console.log( ' JOE PONZIO\'S WORDPRESS INSTALLER' );
+console.log( ' Follow the prompts below to install WordPress.' );
+console.log( ' Problems? Questions? Visit: https://github.com/joeponzio/wordpress-installer' );
+console.log( '-------------------------------------------' );
 console.log( os.EOL );
 
 prompt.colors = false;

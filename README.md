@@ -1,11 +1,11 @@
 # WordPress Installer
-The WordPress Installer lets you quickly install the latest (or any past) version WordPress. **NOTE:** This does not include WordPress MU versions prior to WordPress 3.0 when MU was merged into WordPress.
+The WordPress Installer lets you quickly install the latest (or any past) version WordPress. **NOTE:** Requires node on your system.
 
 ## How To Use
 
 * `git clone git@github.com:joeponzio/wordpress-installer.git`
 * `npm run installer`
-* When prompted, enter the version of WordPress to install (or leave blank for the latest stable version), your database credentials, and follow the additional prompts
+* When prompted, enter the version of WordPress to install (or leave blank for the latest stable version) and your database credentials, and follow the additional prompts
 
 ## What To Expect
 
@@ -37,7 +37,7 @@ I didn't want this installer to be too opinionated; so, it is as Plain Vanilla a
 * Create a new `git` repo to the project (and add everything, commit with "initial commit" and push to Github :)
 * Run `npm install` and `bower install` after the installation so we're quickly up and running with SCSS and livereload
 
-The point is: you can use this to do whatever you want. Use it as a basis for making your own, custom WordPress installer. Simply fork this repo and customize to your heart's content.
+The point is: you can use this to do whatever you want. Use it as a basis for making your own, custom WordPress installer. Simply fork this repo and customize to your heart's content. Of course, if you find an optimization or fix for this script that would benefit others, please go ahead and pull, create issues, etc.
 
 ## Issues or Problems
 If you run into any problems or issues with this installer, you should [post them in the issues section of this repo](https://github.com/joeponzio/wordpress-installer/issues).
