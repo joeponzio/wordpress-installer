@@ -1,10 +1,10 @@
 {
   "name": "wordpress-installer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NPM installer for WordPress",
   "main": "index.js",
   "scripts": {
-    "installer": "npm install adm-zip && npm install fs && npm install https && npm install ncp && npm install prompt && node index.js"
+    "installer": "npm install adm-zip && npm install async && npm install fs && npm install simple-git && npm install https && npm install ncp && npm install os && npm install prompt && node index.js"
   },
   "author": "Joe Ponzio",
   "contributors": [
