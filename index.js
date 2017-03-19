@@ -95,7 +95,7 @@ var downloadWordPress = function(){
 			var zip = new AdmZip( 'wordpress.zip' );
 			zip.extractAllTo( './' );
 			ncp( 'wordpress', '', function( err ){
-				createWPConfig();
+				runAsyncInstallation();
 			});
 		})
 	});
@@ -127,38 +127,45 @@ var runAsyncInstallation = function(){
 			console.log( 'Removed the wordpress.zip installation file' );
 			callback( null, 'Removed the wordpress.zip installation file' );
 		},
-		/*
 		function( callback ){
 			deleteFolderRecursive( 'wordpress' );
 			console.log( 'Removed the initial wordpress installation folder' );
-			callback( null, 'six' );
-		},
-		*/
-		function( callback ){
-			deleteFolderRecursive( 'wp-content/plugins/akismet' );
-			callback( null, 'seven' );
+			callback( null, 'Removed the initial wordpress installation folder' );
 		},
 		function( callback ){
-			fs.unlinkSync( 'wp-content/plugins/hello.php' );
-			callback( null, 'eight' );
+			if( fs.existsSync( 'wp-content/plugins/akismet' ) ){
+				deleteFolderRecursive( 'wp-content/plugins/akismet' );
+				console.log( 'Deleted akismet plugin' );
+			}
+			callback( null, 'Deleted akismet plugin' );
+		},
+		function( callback ){
+			if( fs.existsSync( 'wp-content/plugins/hello.php' ) ){
+				fs.unlinkSync( 'wp-content/plugins/hello.php' );
+				console.log( 'Deleted hello.php plugin (sorry Matt)' );
+			}
+			callback( null, 'Deleted hello.php plugin' );
 		},
 		function( callback ){
 			if( fs.existsSync( 'wp-content/themes/twentyfourteen' ) ){
 				deleteFolderRecursive( 'wp-content/themes/twentyfourteen' );
+				console.log( 'Deleted Twenty Fourteen theme' );
 			}
-			callback( null, 'nine' );
+			callback( null, 'Deleted Twenty Fourteen theme' );
 		},
 		function( callback ){
 			if( fs.existsSync( 'wp-content/themes/twentyfifteen' ) ){
 				deleteFolderRecursive( 'wp-content/themes/twentyfifteen' );
+				console.log( 'Deleted Twenty Fifteen theme' );
 			}
-			callback( null, 'ten' );
+			callback( null, 'Deleted Twenty Fifteen theme' );
 		},
 		function( callback ){
 			if( fs.existsSync( 'wp-content/themes/twentysixteen' ) ){
 				deleteFolderRecursive( 'wp-content/themes/twentysixteen' );
+				console.log( 'Deleted Twenty Sixteen theme' );
 			}
-			callback( null, 'eleven' );
+			callback( null, 'Deleted Twenty Sixteen theme' );
 		},
 		/*
 		function( callback ){
