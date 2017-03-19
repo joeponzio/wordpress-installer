@@ -142,6 +142,7 @@ var runAsyncInstallation = function(){
 		function( callback ){
 			fs.unlinkSync( 'index.js' );
 			fs.unlinkSync( 'package.json' );
+			deleteFolderRecursive( 'node_modules' );
 			console.log( 'Removed the installer files' );
 			callback( null, 'Removed the installer files' );
 		},
