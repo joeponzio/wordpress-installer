@@ -48,14 +48,14 @@ var createWPConfig = function(){
 	if( 'y' == config.debug ){
 		wpConfig +=	'define( \'WP_DEBUG\',              true );' + os.EOL +
 					'define( \'WP_DEBUG_DISPLAY\',      false );' + os.EOL +
-					'define( \'WP_DEBUG_LOG\',          true );' + os.EOL +
+					'define( \'WP_DEBUG_LOG\',          true );' + os.EOL;
 	} else {
-		wpConfig +=	'define( \'WP_DEBUG\',              false );' + os.EOL +
+		wpConfig +=	'define( \'WP_DEBUG\',              false );' + os.EOL;
 	}
 	wpConfig +=		'define( \'AUTOSAVE_INTERVAL\',     ' + config.autosave + ' );' + os.EOL;
 	if( false === config.revisions ){
 		wpConfig +=	'define( \'WP_POST_REVISIONS\',     false );' + os.EOL;
-	} elseif( true !== config.revisions ){
+	} else if( true !== config.revisions ){
 		wpConfig +=	'define( \'WP_POST_REVISIONS\',     ' + config.revisions + ' );' + os.EOL;
 	}
 	wpConfig +=		'' + os.EOL +
@@ -263,7 +263,7 @@ var promptSchema = {
 				value = value.toLowerCase();
 				if( isNaN( value ) || 'all' == value ){
 					return true;
-				} elseif( 0 === parseInt( value ) ){
+				} else if( 0 === parseInt( value ) ){
 					return false;
 				}
 				return parseInt( value );
