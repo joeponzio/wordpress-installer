@@ -10,7 +10,6 @@ var prompt = require( 'prompt' );
 
 var config = {};
 ncp.limit = 16;
-//dbname, dbuser, dbpass, ncp.limit = 16, wpversion;
 
 var createSalt = function(){
 	var text = '';
@@ -84,15 +83,16 @@ var deleteFolderRecursive = function( path ){
 
 var downloadWordPress = function(){
 	console.log( 'Downloading WordPress' );
-	var wpurl;
-	if( !config.wpversion.length ){
-		wpurl = 'https://wordpress.org/latest.zip';
-		wpversion = '(the latest version)';
+	var wpurl = 'https://wordpress.org/';
+	var wpversion = config.wpversion;
+	if( 'latest' == config.wpversion ){
+		wpversion = 'the latest version';
 	} else {
-		wpurl = 'https://wordpress.org/wordpress-' + config.wpversion + '.zip';
+		wpurl += 'wordpress-';
 	}
+	wpurl += config.wpversion + '.zip';
 	https.get( wpurl, function( response ){
-		console.log( 'Downloading WordPress ' + config.wpversion + '. Please be patient as this may take a minute.' );
+		console.log( 'Downloading WordPress (' + config.wpversion + '). Please be patient as this may take a minute.' );
 		response.on( 'data', function( data ){
 			fs.appendFileSync( 'wordpress.zip', data );
 		});
@@ -139,41 +139,6 @@ var runAsyncInstallation = function(){
 			deleteFolderRecursive( 'wordpress' );
 			console.log( 'Removed the initial wordpress installation folder' );
 			callback( null, 'Removed the initial wordpress installation folder' );
-		},
-		function( callback ){
-			if( fs.existsSync( 'wp-content/plugins/akismet' ) ){
-				deleteFolderRecursive( 'wp-content/plugins/akismet' );
-				console.log( 'Deleted akismet plugin' );
-			}
-			callback( null, 'Deleted akismet plugin' );
-		},
-		function( callback ){
-			if( fs.existsSync( 'wp-content/plugins/hello.php' ) ){
-				fs.unlinkSync( 'wp-content/plugins/hello.php' );
-				console.log( 'Deleted hello.php plugin (sorry Matt)' );
-			}
-			callback( null, 'Deleted hello.php plugin' );
-		},
-		function( callback ){
-			if( fs.existsSync( 'wp-content/themes/twentyfourteen' ) ){
-				deleteFolderRecursive( 'wp-content/themes/twentyfourteen' );
-				console.log( 'Deleted Twenty Fourteen theme' );
-			}
-			callback( null, 'Deleted Twenty Fourteen theme' );
-		},
-		function( callback ){
-			if( fs.existsSync( 'wp-content/themes/twentyfifteen' ) ){
-				deleteFolderRecursive( 'wp-content/themes/twentyfifteen' );
-				console.log( 'Deleted Twenty Fifteen theme' );
-			}
-			callback( null, 'Deleted Twenty Fifteen theme' );
-		},
-		function( callback ){
-			if( fs.existsSync( 'wp-content/themes/twentysixteen' ) ){
-				deleteFolderRecursive( 'wp-content/themes/twentysixteen' );
-				console.log( 'Deleted Twenty Sixteen theme' );
-			}
-			callback( null, 'Deleted Twenty Sixteen theme' );
 		},
 		/*
 		function( callback ){
@@ -252,7 +217,10 @@ var promptSchema = {
 			required: true
 		},
 		autosave: {
-			description: 'Autosave interval (in seconds)',
+			before: function( value ){
+				return parseInt( value );
+			},
+			description: 'Autosave interval, in seconds',
 			default: 600,
 			pattern: /^[0-9]+$/,
 			message: 'Please enter a value in seconds',
@@ -286,11 +254,12 @@ prompt.get( promptSchema, function( err, result ){
 		console.log( err );
 		return 1;
 	}
-	config.wpversion  = result.wpversion.trim();
-	config.dbname     = result.dbname.trim();
-	config.dbuser     = result.dbuser.trim();
-	config.dbpass     = result.dbpass.trim();
-	config.debug      = result.debug.trim();
-	console.log( config );
-	//downloadWordPress();
+	config.wpversion  = result.wpversion;
+	config.dbname     = result.dbname;
+	config.dbuser     = result.dbuser;
+	config.dbpass     = result.dbpass;
+	config.debug      = result.debug;
+	config.autosave   = result.autosave;
+	config.revisions  = result.revisions;
+	downloadWordPress();
 } );
