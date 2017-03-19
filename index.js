@@ -266,6 +266,14 @@ var promptSchema = {
     }
 };
 
+console.log( os.EOL );
+console.log( '--------------------------------------' );
+console.log( os.EOL );
+console.log( '     The Node WordPress Installer     ' );
+console.log( os.EOL );
+console.log( '--------------------------------------' );
+console.log( os.EOL );
+
 prompt.colors = false;
 prompt.message = '';
 prompt.delimiter = '';
