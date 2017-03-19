@@ -8,7 +8,8 @@ var ncp    = require( 'ncp' ).ncp;
 var os     = require( 'os' );
 var prompt = require( 'prompt' );
 
-var config = {}, ncp.limit = 16;
+var config = {};
+ncp.limit = 16;
 //dbname, dbuser, dbpass, ncp.limit = 16, wpversion;
 
 var createSalt = function(){
@@ -190,8 +191,6 @@ fs.access( './index.php', fs.F_OK, function( err ){
 		return 1;
 	}
 });
-
-//deleteFolderRecursive( '.git' );
 
 var promptSchema = {
 	properties: {
