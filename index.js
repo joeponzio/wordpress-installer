@@ -22,41 +22,48 @@ var createSalt = function(){
 };
 
 var createWPConfig = function(){
-	var wpConfig = '<?php' + os.EOL +
-		'define( \'DB_NAME\',     \'' + config.dbname + '\' );' + os.EOL +
-		'define( \'DB_USER\',     \'' + config.dbuser + '\' );' + os.EOL +
-		'define( \'DB_PASSWORD\', \'' + config.dbpass + '\' );' + os.EOL +
-		'define( \'DB_HOST\',     \'localhost\' );' + os.EOL +
-		'define( \'DB_CHARSET\',  \'utf8\' );' + os.EOL +
-		'define( \'DB_COLLATE\',  \'\' );' + os.EOL +
-		'' + os.EOL +
-		'/*--------------------------------------------------' + os.EOL +
-		' * Authentication Unique Keys and Salts' + os.EOL +
-		' * https://api.wordpress.org/secret-key/1.1/salt/' + os.EOL +
-		'--------------------------------------------------*/' + os.EOL +
-		'define( \'AUTH_KEY\',         \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'SECURE_AUTH_KEY\',  \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'LOGGED_IN_KEY\',    \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'NONCE_KEY\',        \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'AUTH_SALT\',        \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'SECURE_AUTH_SALT\', \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'LOGGED_IN_SALT\',   \'' + createSalt() + '\' );' + os.EOL +
-		'define( \'NONCE_SALT\',       \'' + createSalt() + '\' );' + os.EOL +
-		'' + os.EOL +
-		'$table_prefix  = \'wp_\';' + os.EOL +
-		'' + os.EOL +
-		'define( \'WP_DEBUG\',              true );' + os.EOL +
-		'define( \'WP_DEBUG_DISPLAY\',      false );' + os.EOL +
-		'define( \'WP_DEBUG_LOG\',          true );' + os.EOL +
-		'define( \'AUTOSAVE_INTERVAL\',     300 );' + os.EOL +
-		'define( \'WP_POST_REVISIONS\',     3 );' + os.EOL +
-		'define( \'DISALLOW_FILE_EDIT\',    true );' + os.EOL +
-		'define( \'IMAGE_EDIT_OVERWRITE\',  true );' + os.EOL +
-		'' + os.EOL +
-		'if( !defined( \'ABSPATH\' ) ){' + os.EOL +
-		'  define( \'ABSPATH\', dirname( __FILE__ ) . \'/\' );' + os.EOL +
-		'}' + os.EOL +
-		'require_once( ABSPATH . \'wp-settings.php\' );';
+	var wpConfig =	'<?php' + os.EOL +
+					'define( \'DB_NAME\',     \'' + config.dbname + '\' );' + os.EOL +
+					'define( \'DB_USER\',     \'' + config.dbuser + '\' );' + os.EOL +
+					'define( \'DB_PASSWORD\', \'' + config.dbpass + '\' );' + os.EOL +
+					'define( \'DB_HOST\',     \'localhost\' );' + os.EOL +
+					'define( \'DB_CHARSET\',  \'utf8\' );' + os.EOL +
+					'define( \'DB_COLLATE\',  \'\' );' + os.EOL +
+					'' + os.EOL +
+					'/*--------------------------------------------------' + os.EOL +
+					' * Authentication Unique Keys and Salts' + os.EOL +
+					' * https://api.wordpress.org/secret-key/1.1/salt/' + os.EOL +
+					'--------------------------------------------------*/' + os.EOL +
+					'define( \'AUTH_KEY\',         \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'SECURE_AUTH_KEY\',  \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'LOGGED_IN_KEY\',    \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'NONCE_KEY\',        \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'AUTH_SALT\',        \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'SECURE_AUTH_SALT\', \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'LOGGED_IN_SALT\',   \'' + createSalt() + '\' );' + os.EOL +
+					'define( \'NONCE_SALT\',       \'' + createSalt() + '\' );' + os.EOL +
+					'' + os.EOL +
+					'$table_prefix  = \'wp_\';' + os.EOL +
+					'' + os.EOL;
+	if( 'y' == config.debug ){
+		wpConfig +=	'define( \'WP_DEBUG\',              true );' + os.EOL +
+					'define( \'WP_DEBUG_DISPLAY\',      false );' + os.EOL +
+					'define( \'WP_DEBUG_LOG\',          true );' + os.EOL +
+	} else {
+		wpConfig +=	'define( \'WP_DEBUG\',              false );' + os.EOL +
+	}
+	wpConfig +=		'define( \'AUTOSAVE_INTERVAL\',     ' + config.autosave + ' );' + os.EOL;
+	if( false === config.revisions ){
+		wpConfig +=	'define( \'WP_POST_REVISIONS\',     false );' + os.EOL;
+	} elseif( true !== config.revisions ){
+		wpConfig +=	'define( \'WP_POST_REVISIONS\',     ' + config.revisions + ' );' + os.EOL;
+	}
+	wpConfig +=		'' + os.EOL +
+					'if( !defined( \'ABSPATH\' ) ){' + os.EOL +
+					'  define( \'ABSPATH\', dirname( __FILE__ ) . \'/\' );' + os.EOL +
+					'}' + os.EOL + os.EOL +
+					'require_once( ABSPATH . \'wp-settings.php\' );';
+
 	fs.writeFile( 'wp-config.php', wpConfig );
 };
 
@@ -184,14 +191,6 @@ var runAsyncInstallation = function(){
 		}
 	});
 };
-/*
-var moveWordPress = function(){
-	ncp( 'wordpress', '', function( err ){
-		deleteFolderRecursive( 'wordpress' );
-		wipeInitializer();
-	});
-};
-*/
 
 fs.access( './index.php', fs.F_OK, function( err ){
 	if( !err ){
@@ -203,34 +202,76 @@ fs.access( './index.php', fs.F_OK, function( err ){
 var promptSchema = {
 	properties: {
 		wpversion: {
+			before: function( value ){
+				value = value.trim().toLowerCase().replace( /rc/g, 'RC' );
+				if( !value.length ){
+					value = 'latest';
+				}
+				return value;
+			},
 			description: 'WordPress Version Number (leave blank for the latest version):',
 			pattern: /^[0-9a-zA-Z\-\.]+$/,
-			message: 'Version number must be only letters, numbers, dashes, and/or hyphens',
+			message: 'Version number must be only letters, numbers, dashes, and/or periods',
 			required: false
 		},
 		dbname: {
+			before: function( value ){
+				return value.trim();
+			},
 			description: 'Database Name:',
 			pattern: /^[a-zA-Z0-9\-_]+$/,
 			message: 'Database name must be only letters, numbers, dashes, and/or underscores',
 			required: true
 		},
 		dbuser: {
+			before: function( value ){
+				return value.trim();
+			},
 			description: 'Database User:',
 			pattern: /^[a-zA-Z0-9\-_]+$/,
 			message: 'Database user must be only letters, numbers, dashes, and/or underscores',
 			required: true
 		},
 		dbpass: {
+			before: function( value ){
+				return value.trim();
+			},
 			description: 'Database Password:',
 			pattern: /^[\S]+$/,
 			message: 'Database password can not have spaces, tabs, or new lines',
 			required: true
 		},
 		debug: {
-			description: 'Turn on debug mode? (Y/n)',
+			before: function( value ){
+				return value.toLowerCase();
+			},
+			description: 'Turn on debug mode?',
 			default: 'Y',
 			pattern: /^[YyNn]+$/,
 			message: 'Please enter Y or N',
+			required: true
+		},
+		autosave: {
+			description: 'Autosave interval (in seconds)',
+			default: 600,
+			pattern: /^[0-9]+$/,
+			message: 'Please enter a value in seconds',
+			required: true
+		},
+		revisions: {
+			before: function( value ){
+				value = value.toLowerCase();
+				if( isNaN( value ) || 'all' == value ){
+					return true;
+				} elseif( 0 === parseInt( value ) ){
+					return false;
+				}
+				return parseInt( value );
+			},
+			description: 'Number of revisions to store',
+			default: 'All',
+			pattern: /^[0-9alAL]+$/,
+			message: 'Please enter a number, or type "all" to store all revisions',
 			required: true
 		}
     }
@@ -250,5 +291,6 @@ prompt.get( promptSchema, function( err, result ){
 	config.dbuser     = result.dbuser.trim();
 	config.dbpass     = result.dbpass.trim();
 	config.debug      = result.debug.trim();
-	downloadWordPress();
+	console.log( config );
+	//downloadWordPress();
 } );
