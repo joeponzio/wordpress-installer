@@ -5,7 +5,7 @@ The WordPress Installer lets you quickly install the latest (or any past) versio
 
 * `git clone git@github.com:joeponzio/wordpress-installer.git`
 * `npm run installer`
-* When prompted, enter the version of WordPress to install (or leave blank for the latest stable version)
+* When prompted, enter the version of WordPress to install (or leave blank for the latest stable version), your database credentials, and follow the additional prompts
 
 ## What To Expect
 
@@ -13,13 +13,26 @@ The WordPress Installer lets you quickly install the latest (or any past) versio
 1. The installer will remove its own files as they're not needed anymore
 1. You have a clean install of WordPress. Enjoy!
 
-(You still need to create your `wp-config.php` to connect to the database.)
+## Configuration Options
+If you're going to use this a lot, consider adding your preferred defaults to the config options so you can skip through the prompts more quickly. For example, if you use one database user on your localhost for every install, consider adding your database username and password to the `config` variable in `index.js`:
+
+```javascript
+var config = {
+	autosave: 60,
+	dbhost: 'localhost',
+	dbpass: 'password',
+	dbuser: 'username',
+	debug: 'Y',
+	revisions: 'All'
+};
+```
+
+Of course, you'll need to save this in your own (preferably private) repo. But the point is - use it how you want!
 
 ## Got Ideas? Go Fork Yourself
 I didn't want this installer to be too opinionated; so, it is as Plain Vanilla as they come. We use modified versions of it to:
 
-* Auto-generate `wp-config.php` files with database credentials filled in during the install
-* Delete *hello.php* and *akismet* upon install
+* Delete *akismet* and *hello.php* (sorry Matt) upon install
 * Clone our framework and base child theme repos (and delete the `git` references so they're fresh)
 * Create a new `git` repo to the project (and add everything, commit with "initial commit" and push to Github :)
 * Run `npm install` and `bower install` after the installation so we're quickly up and running with SCSS and livereload
